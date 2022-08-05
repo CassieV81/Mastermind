@@ -7,9 +7,7 @@ module Master
   end
 end
 
-
 class Mastermind
-
   include Master
   def initialize
     @num = random_num
@@ -18,7 +16,7 @@ class Mastermind
 
   def guess_number
     p @num
-    2.times do
+    5.times do
       @player = gets.chomp.to_i.digits.reverse
       if @player == @num
         puts 'You win'
@@ -31,15 +29,15 @@ class Mastermind
   end
 
   def check_num
+    check = []
     @num.any? do |i|
-      if @player.include?(i)
-        puts 'o'
-      end
+      check.push('O') if @player.include?(i)
+      check.push('X') if @num[i] != @player[i]
     end
+    p check
   end
 
 end
 
 mastermind = Mastermind.new
-# mastermind.random_number
 mastermind.guess_number
