@@ -3,7 +3,11 @@
 module Master
   def random_num
     num = (1..6).to_a
-    num.sample(4)
+    rand_num = []
+    4.times do
+      rand_num.push(num.sample)
+    end
+    rand_num
   end
 end
 
