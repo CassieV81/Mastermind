@@ -15,7 +15,8 @@ class Mastermind
   include Master
   def initialize
     @num = random_num
-    @player
+    @player = ''
+    @check = []
   end
 
   def guess_number
@@ -28,19 +29,21 @@ class Mastermind
       else
         check_num
         puts 'Try again..'
+        @check = []
       end
     end
   end
 
   def check_num
-    check = []
-    @num.any? do |i|
-      check.push('O') if @player.include?(i)
-      check.push('X') if @num[i] != @player[i]
+    @player.each do |i|
+      if @num.include?(i) && @num.index(i) == @player.index(i)
+        @check.push('o')
+      elsif @num.include?(i) && @num.index(i) != @player.index(i)
+        @check.push('x')
+      end
     end
-    p check
+    p @check
   end
-
 end
 
 mastermind = Mastermind.new
