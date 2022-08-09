@@ -56,13 +56,16 @@ class Mastermind
     end
   end
 
-  def check_num
-    @player.each_with_index do |value, index|
-      if @num.include?(value) && @num.index(value) == index
-        @check.push('o')
-      elsif @num.include?(value) && @num.index(value) != index
-        @check.push('x')
-      end
+  def select_player
+    @selector = gets.chomp.to_i
+    if @selector == 1
+      code_maker
+    elsif @selector == 2
+      code_breaker
+    else
+      puts 'Wrong input, please select 1 or 2'
+      @selector = gets.chomp.to_i
+    end
     end
     p @check.join
   end
