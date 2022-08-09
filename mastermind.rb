@@ -35,14 +35,14 @@ class Mastermind
   end
 
   def check_num
-    @player.each do |i|
-      if @num.include?(i) && @num.index(i) == @player.index(i)
+    @player.each_with_index do |value, index|
+      if @num.include?(value) && @num.index(value) == index
         @check.push('o')
-      elsif @num.include?(i) && @num.index(i) != @player.index(i)
+      elsif @num.include?(value) && @num.index(value) != index
         @check.push('x')
       end
     end
-    p @check
+    p @check.join
   end
 end
 
