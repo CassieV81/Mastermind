@@ -19,7 +19,29 @@ class Mastermind
     @check = []
   end
 
-  def guess_number
+  def instructions
+    puts 'Select 1 if you want to be the code maker'
+    puts 'Select 2 if you want to be the code breaker'
+  end
+
+  def check_num
+    @player.each_with_index do |value, index|
+      if @num.include?(value)
+        if @num.index(value) == index
+          @check.push('o')
+        elsif @num.index(value) != index && @player.all? { |i| i == value } == false
+          @check.push('x')
+        end
+      end
+    end
+    p @check.join
+  end
+
+  def code_maker
+    @player = gets.chomp.to_i
+  end
+
+  def code_breaker
     p @num
     5.times do
       @player = gets.chomp.to_i.digits.reverse
