@@ -50,7 +50,7 @@ class Mastermind
       @player = gets.chomp.to_i.digits.reverse
       if @player == @num
         puts 'You win, Congratulations!'
-        break
+        return
       else
         check_num
         puts 'Try again..'
