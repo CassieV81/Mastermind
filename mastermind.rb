@@ -69,7 +69,7 @@ class Mastermind
       code_breaker
     else
       puts 'Wrong input, please select 1 or 2'
-      @selector = gets.chomp.to_i
+      select_player
     end
   end
 end
