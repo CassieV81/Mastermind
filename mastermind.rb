@@ -17,7 +17,8 @@ class Mastermind
     @num = random_num
     @player = ''
     @selector = ''
-    @check = []
+    @hint = []
+    @guess = []
   end
 
   def instructions
@@ -28,25 +29,45 @@ class Mastermind
   def check_num
     @player.each_with_index do |value, index|
       if @num.include?(value)
+        # changing syntax from index() to at() solved the
+        # issue of pushing 'o' only once when there is multiple numbers
         if @num.at(index) == value
-          @check.push('o')
+          @hint.push('o')
         elsif @num.index(value) != index && @player.all? { |i| i == value } == false
-          @check.push('x')
+          @hint.push('x')
         end
       end
     end
-    p @check.join
+    p @hint.join
+  end
+
+  def computer_guess
+    @guess = [1111, 2222, 3333, 4444, 5555, 6666]
+    @guess[0].digits.reverse
+    case @hint
+    when []
+      @guess[0].digits.reverse
+    when ''
+      @guess[1].digits.reverse
+    end
+  end
+
+  def computer_play
+    12.times do
+      p @player = computer_guess
+      check_num
+    end
   end
 
   def code_maker
     puts 'Input 4 numbers between 1 and 6 to create code'
     @player = gets.chomp.to_i
+    computer_play
   end
 
   def code_breaker
-    p @num
     puts 'Guess correct code by inputing 4 numbers between 1 and 6...'
-    5.times do
+    12.times do
       @player = gets.chomp.to_i.digits.reverse
       if @player == @num
         puts 'You win, Congratulations!'
@@ -54,7 +75,7 @@ class Mastermind
       else
         check_num
         puts 'Try again..'
-        @check = []
+        @hint = []
       end
     end
     puts "You lost, the correct code is #{@num}"
