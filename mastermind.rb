@@ -16,6 +16,7 @@ class Mastermind
   def initialize
     @num = random_num
     @player = ''
+    @selector = ''
     @check = []
   end
 
@@ -27,7 +28,7 @@ class Mastermind
   def check_num
     @player.each_with_index do |value, index|
       if @num.include?(value)
-        if @num.index(value) == index
+        if @num.at(index) == value
           @check.push('o')
         elsif @num.index(value) != index && @player.all? { |i| i == value } == false
           @check.push('x')
@@ -38,15 +39,17 @@ class Mastermind
   end
 
   def code_maker
+    puts 'Input 4 numbers between 1 and 6 to create code'
     @player = gets.chomp.to_i
   end
 
   def code_breaker
     p @num
+    puts 'Guess correct code by inputing 4 numbers between 1 and 6...'
     5.times do
       @player = gets.chomp.to_i.digits.reverse
       if @player == @num
-        puts 'You win'
+        puts 'You win, Congratulations!'
         break
       else
         check_num
@@ -54,22 +57,23 @@ class Mastermind
         @check = []
       end
     end
+    puts "You lost, the correct code is #{@num}"
   end
 
   def select_player
     @selector = gets.chomp.to_i
-    if @selector == 1
+    case @selector
+    when 1
       code_maker
-    elsif @selector == 2
+    when 2
       code_breaker
     else
       puts 'Wrong input, please select 1 or 2'
       @selector = gets.chomp.to_i
     end
-    end
-    p @check.join
   end
 end
 
 mastermind = Mastermind.new
-mastermind.guess_number
+mastermind.instructions
+mastermind.select_player
