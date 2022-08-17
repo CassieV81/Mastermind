@@ -45,10 +45,15 @@ class Mastermind
     # @guess = [1111, 2222, 3333, 4444, 5555, 6666]
     # guess2 = [1, 2, 3, 4, 5, 6]
     # # @guess[0].digits.reverse
-    @player = 1111.digits.reverse
+    @player = 1111.digits.reverse if @hint == []
     check_num
-    if @hint == ['o']
+    case @hint
+    when ['o']
       @player = 1222.digits.reverse
+    when %w[o o]
+      @player = 1122.digits.reverse
+    when %w[o o o]
+      @player = 1112.digits.reverse
     else
       @player = 2222.digits.reverse
     end
@@ -58,6 +63,7 @@ class Mastermind
   def computer_play
     3.times do
       p computer_guess
+      @hint = []
       # check_num
     end
   end
