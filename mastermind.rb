@@ -11,15 +11,46 @@ module Master
   end
 end
 
-class Mastermind
-  include Master
+class ComputerGuess 
+  
   def initialize
-    @num = random_num
+    @code = random_num
     @player = ''
     @selector = ''
     @hint = []
     @guess = []
   end
+
+  def computer_guess
+    @guess = [1111, 2222, 3333, 4444, 5555, 6666]
+    # guess2 = [1, 2, 3, 4, 5, 6]
+    # # @guess[0].digits.reverse
+    # @player = @guess[0].digits.reverse if @hint == []
+    # while @hint == []
+      @guess.each do |x|
+        @player = x.digits.reverse
+        check_num
+        case @hint
+        when ['o']
+          @player = 1222.digits.reverse
+        when %w[o o]
+          @player = 1122.digits.reverse
+        when %w[o o o]
+          @player = 1112.digits.reverse
+        when %w[o o o o]
+          puts 'You Win!'
+        end
+      end
+    # end
+    # check_num
+  end
+end
+
+class Mastermind < ComputerGuess
+  include Master
+  # def initialize
+  #   super
+  # end
 
   def instructions
     puts 'Select 1 if you want to be the code maker'
@@ -28,12 +59,12 @@ class Mastermind
 
   def check_num
     @player.each_with_index do |value, index|
-      if @num.include?(value)
+      if @code.include?(value)
         # changing syntax from index() to at() solved the
         # issue of pushing 'o' only once when there is multiple numbers
-        if @num.at(index) == value
+        if @code.at(index) == value
           @hint.push('o')
-        elsif @num.index(value) != index && @player.all? { |i| i == value } == false
+        elsif @code.index(value) != index && @player.all? { |i| i == value } == false
           @hint.push('x')
         end
       end
@@ -42,22 +73,7 @@ class Mastermind
   end
 
   def computer_guess
-    # @guess = [1111, 2222, 3333, 4444, 5555, 6666]
-    # guess2 = [1, 2, 3, 4, 5, 6]
-    # # @guess[0].digits.reverse
-    @player = 1111.digits.reverse if @hint == []
-    check_num
-    case @hint
-    when ['o']
-      @player = 1222.digits.reverse
-    when %w[o o]
-      @player = 1122.digits.reverse
-    when %w[o o o]
-      @player = 1112.digits.reverse
-    else
-      @player = 2222.digits.reverse
-    end
-    # check_num
+    super
   end
 
   def computer_play
@@ -71,6 +87,7 @@ class Mastermind
   def code_maker
     puts 'Input 4 numbers between 1 and 6 to create code'
     @player = gets.chomp.to_i
+    @code = @player.digits.reverse
     computer_play
   end
 
@@ -78,7 +95,7 @@ class Mastermind
     puts 'Guess correct code by inputing 4 numbers between 1 and 6...'
     12.times do
       @player = gets.chomp.to_i.digits.reverse
-      if @player == @num
+      if @player == @code
         puts 'You win, Congratulations!'
         return
       else
@@ -87,7 +104,7 @@ class Mastermind
         @hint = []
       end
     end
-    puts "You lost, the correct code is #{@num}"
+    puts "You lost, the correct code is #{@code}"
   end
 
   def select_player
