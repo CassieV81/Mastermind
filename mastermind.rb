@@ -12,7 +12,6 @@ module Master
 end
 
 class ComputerGuess 
-  
   def initialize
     @code = random_num
     @player = ''
@@ -22,27 +21,18 @@ class ComputerGuess
   end
 
   def computer_guess
-    @guess = [1111, 2222, 3333, 4444, 5555, 6666]
-    # guess2 = [1, 2, 3, 4, 5, 6]
-    # # @guess[0].digits.reverse
-    # @player = @guess[0].digits.reverse if @hint == []
-    # while @hint == []
-      @guess.each do |x|
-        @player = x.digits.reverse
-        check_num
-        case @hint
-        when ['o']
-          @player = 1222.digits.reverse
-        when %w[o o]
-          @player = 1122.digits.reverse
-        when %w[o o o]
-          @player = 1112.digits.reverse
-        when %w[o o o o]
-          puts 'You Win!'
-        end
-      end
-    # end
-    # check_num
+    p @player = [1, 1, 1, 1]
+    check_num
+    case @hint
+    when ['o']
+      p @player = [1, 2, 2, 2]
+    when %w[o o]
+      p @player = [1, 2, 3, 3]
+    when %w[o o o]
+      p @player = [1, 2, 3, 4]
+    else
+      p @player = [2, 2, 2, 2]
+    end
   end
 end
 
@@ -76,19 +66,28 @@ class Mastermind < ComputerGuess
     super
   end
 
-  def computer_play
-    3.times do
-      p computer_guess
-      @hint = []
-      # check_num
-    end
-  end
+  # def computer_play
+  #   3.times do
+  #     p computer_guess
+  #     # check_num
+  #   end
+  # end
 
   def code_maker
     puts 'Input 4 numbers between 1 and 6 to create code'
     @player = gets.chomp.to_i
     @code = @player.digits.reverse
-    computer_play
+    5.times do
+      computer_guess
+      if @player == @code
+        puts 'Computer successfully cracked your code...'
+        return
+      else
+        # puts computer_guess
+        @hint = []
+      end
+    end
+    puts 'Congratulations, computer could not crack your code...'
   end
 
   def code_breaker
@@ -96,7 +95,7 @@ class Mastermind < ComputerGuess
     12.times do
       @player = gets.chomp.to_i.digits.reverse
       if @player == @code
-        puts 'You win, Congratulations!'
+        puts 'You successfully cracked the code, Congratulations!'
         return
       else
         check_num
@@ -104,7 +103,7 @@ class Mastermind < ComputerGuess
         @hint = []
       end
     end
-    puts "You lost, the correct code is #{@code}"
+    puts "You could not crack the code, it is #{@code}"
   end
 
   def select_player
