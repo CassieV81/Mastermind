@@ -18,22 +18,31 @@ class ComputerGuess
     @selector = ''
     @hint = []
     @guess = []
+    @numbers = [1, 2, 3, 4, 5, 6]
+  end
+
+  def guess(num)
+    p @player = [num, num, num, num]
   end
 
   def computer_guess
-    p @player = [1, 1, 1, 1]
-    check_num
-    case @hint
-    when ['o']
-      p @player = [1, 2, 2, 2]
-    when %w[o o]
-      p @player = [1, 2, 3, 3]
-    when %w[o o o]
-      p @player = [1, 2, 3, 4]
-    else
-      p @player = [2, 2, 2, 2]
+    @numbers.each do |i|
+      guess(i)
+      check_num
+      if @hint.include?('o') || @hint.include?('x')
+        p @guess.push(i)
+      end
     end
+    # p @guess = @player
+    # check_num
   end
+
+  def computer_play
+    computer_guess
+    @code = @guess
+    check_num
+  end
+
 end
 
 class Mastermind < ComputerGuess
@@ -66,24 +75,17 @@ class Mastermind < ComputerGuess
     super
   end
 
-  # def computer_play
-  #   3.times do
-  #     p computer_guess
-  #     # check_num
-  #   end
-  # end
 
   def code_maker
     puts 'Input 4 numbers between 1 and 6 to create code'
     @player = gets.chomp.to_i
     @code = @player.digits.reverse
     5.times do
-      computer_guess
+      computer_play
       if @player == @code
         puts 'Computer successfully cracked your code...'
         return
       else
-        # puts computer_guess
         @hint = []
       end
     end
