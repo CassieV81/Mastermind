@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Master
-  def random_num
+  def self.random_num
     num = (1..6).to_a
     rand_num = []
     4.times do
@@ -13,20 +13,17 @@ end
 
 class ComputerGuess 
   def initialize
-    @code = random_num
-    @player = ''
-    @selector = ''
+    @code = Master.random_num
+    @player = []
     @hint = []
-    @guess = []
-    @numbers = [1, 2, 3, 4, 5, 6]
   end
 
   def computer_guess
     12.times do
       @hint = []
-      @player = random_num
+      @player = Master.random_num
       p @player
-      check_num
+      # check_num
       if @player == @code
         puts 'Computer successfully cracked the code, Congratulations!'
         return
@@ -36,22 +33,6 @@ class ComputerGuess
       end
     end
     puts "Computer could not crack the code, it is #{@code}"
-  end
-
-  def computer_play
-    computer_guess
-    @code = @guess
-    check_num
-  end
-
-end
-
-class Mastermind < ComputerGuess
-  include Master
-
-  def instructions
-    puts 'Select 1 if you want to be the code maker'
-    puts 'Select 2 if you want to be the code breaker'
   end
 
   def check_num
@@ -68,11 +49,14 @@ class Mastermind < ComputerGuess
     end
     p @hint.join
   end
+end
 
-  def computer_guess
-    super
+class Mastermind < ComputerGuess
+
+  def instructions
+    puts 'Select 1 if you want to be the code maker'
+    puts 'Select 2 if you want to be the code breaker'
   end
-
 
   def code_maker
     puts 'Input 4 numbers between 1 and 6 to create code'
