@@ -21,20 +21,31 @@ class ComputerGuess
     @numbers = [1, 2, 3, 4, 5, 6]
   end
 
-  def guess(num)
-    p @player = [num, num, num, num]
-  end
+  # def guess(num)
+  #   p @player = [num, num, num, num]
+  # end
 
   def computer_guess
-    @numbers.each do |i|
-      guess(i)
-      check_num
-      if @hint.include?('o') || @hint.include?('x')
-        p @guess.push(i)
+    12.times do
+      @guess = []
+      @hint = []
+      @numbers.each do |i|
+        @player = [i, i, i, i]
+        check_num
+        if @hint.include?('o') || @hint.include?('x')
+          p @guess.push(i)
+        end
+      end
+      if @player == @code
+        puts 'Computer successfully cracked the code, Congratulations!'
+        return
+      else
+        check_num
+        puts 'Computer is trying again...'
+        @hint = []
       end
     end
-    # p @guess = @player
-    # check_num
+    puts "Computer could not crack the code, it is #{@code}"
   end
 
   def computer_play
@@ -80,16 +91,8 @@ class Mastermind < ComputerGuess
     puts 'Input 4 numbers between 1 and 6 to create code'
     @player = gets.chomp.to_i
     @code = @player.digits.reverse
-    5.times do
-      computer_play
-      if @player == @code
-        puts 'Computer successfully cracked your code...'
-        return
-      else
-        @hint = []
-      end
-    end
-    puts 'Congratulations, computer could not crack your code...'
+    puts 'Computer is trying to guess the code...'
+    computer_guess
   end
 
   def code_breaker
