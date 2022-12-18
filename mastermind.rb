@@ -21,27 +21,17 @@ class ComputerGuess
     @numbers = [1, 2, 3, 4, 5, 6]
   end
 
-  # def guess(num)
-  #   p @player = [num, num, num, num]
-  # end
-
   def computer_guess
     12.times do
-      @guess = []
       @hint = []
-      @numbers.each do |i|
-        @player = [i, i, i, i]
-        check_num
-        if @hint.include?('o') || @hint.include?('x')
-          p @guess.push(i)
-        end
-      end
+      @player = random_num
+      p @player
+      check_num
       if @player == @code
         puts 'Computer successfully cracked the code, Congratulations!'
         return
       else
-        check_num
-        puts 'Computer is trying again...'
+        puts "Computer is trying again..."
         @hint = []
       end
     end
@@ -58,9 +48,6 @@ end
 
 class Mastermind < ComputerGuess
   include Master
-  # def initialize
-  #   super
-  # end
 
   def instructions
     puts 'Select 1 if you want to be the code maker'
